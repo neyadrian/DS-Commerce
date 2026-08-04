@@ -1,5 +1,4 @@
 @startuml
-' Oculta os ícones padrões do PlantUML (bolinhas com C, E, etc) para ficar igual à imagem
 skinparam classAttributeIconSize 0
 hide circle
 
