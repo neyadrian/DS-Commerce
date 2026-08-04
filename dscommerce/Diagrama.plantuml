@@ -1,0 +1,61 @@
+@startuml
+' Oculta os ícones padrões do PlantUML (bolinhas com C, E, etc) para ficar igual à imagem
+skinparam classAttributeIconSize 0
+hide circle
+
+class Product {
+  - <<pk>> id : Long
+  - name : String
+  - description : String
+  - price : Double
+  - imgUrl : String
+}
+
+class Category {
+  - <<pk>> id : Long
+  - name : String
+}
+
+class OrderItem {
+  - quantity : Integer
+  - price : Double
+}
+
+class Order {
+  - <<pk>> id : Long
+  - moment : Instant
+  - status : OrderStatus
+}
+
+class User {
+  - <<pk>> id : Long
+  - name : String
+  - email : String
+  - phone : String
+  - birthDate : LocalDate
+  - password : String
+  - roles : String[]
+}
+
+class Payment {
+  - <<pk>> id : Long
+  - moment : Instant
+}
+
+enum OrderStatus <<enum>> {
+  - WAITING_PAYMENT : int
+  - PAID : int
+  - SHIPPED : int
+  - DELIVERED : int
+  - CANCELED : int
+}
+
+' Relacionamentos
+Product "*" -- "1..*" Category : - products \n - categories
+Product "1..*" -right- "*" Order : - products \n - orders
+(Product, Order) .. OrderItem
+
+Order "*" -right- "1" User : - orders \n - client
+Order "1" -- "0..1" Payment : - order \n - payment
+
+@enduml
