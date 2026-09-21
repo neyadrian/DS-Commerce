@@ -1,7 +1,9 @@
 package com.projectsney.dscommerce.controllers;
 
+import com.projectsney.dscommerce.dto.CustomError;
 import com.projectsney.dscommerce.dto.ProductDTO;
 import com.projectsney.dscommerce.services.ProductService;
+import com.projectsney.dscommerce.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -20,9 +23,14 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-        ProductDTO dto = service.findById(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+        try {
+            ProductDTO dto = service.findById(id);
+            return ResponseEntity.ok(dto);
+        } catch (ResourceNotFoundException e) {
+            CustomError err = new CustomError(Instant.now(), 404, e.getMessage(), "caminho");
+            return ResponseEntity.status(404).body(err);
+        }
     }
 
     @GetMapping
