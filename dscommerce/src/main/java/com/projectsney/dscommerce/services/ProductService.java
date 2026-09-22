@@ -3,6 +3,7 @@ package com.projectsney.dscommerce.services;
 import com.projectsney.dscommerce.dto.ProductDTO;
 import com.projectsney.dscommerce.entities.Product;
 import com.projectsney.dscommerce.repositories.ProductRepository;
+import com.projectsney.dscommerce.services.exceptions.DatabaseException;
 import com.projectsney.dscommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
